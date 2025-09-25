@@ -3,15 +3,16 @@
 import Image from "next/image";
 
 import Cta from "@/components/Cta";
-import HeaderSecondary from "@/components/HeaderSecondary";
 import PageHeader from "@/components/PageHeader";
+import HeaderSecondary from "@/components/HeaderSecondary";
+import Certificacoes from "@/components/Certificacoes";
 
 export default function SobreNosPage() {
   return (
     <>
       <HeaderSecondary />
 
-     <PageHeader title="Sobre nós" />
+      <PageHeader title="Sobre nós" />
 
 
       <main className="mx-auto max-w-7xl px-4 md:px-10 pb-20">
@@ -62,12 +63,13 @@ export default function SobreNosPage() {
                 </p>
               </div>
 
-              
+
             </div>
           </div>
         </section>
       </main>
 
+      <Certificacoes />
       <Cta />
 
     </>

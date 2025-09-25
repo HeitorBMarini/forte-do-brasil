@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MessageCircle } from "lucide-react";
+import { ContactLinks } from "./ContactLinks";
 
 export default function Footer() {
   return (
@@ -44,21 +45,7 @@ export default function Footer() {
         <div className="flex flex-col items-center md:items-start space-y-3">
           <h3 className="font-semibold mb-2">Contato</h3>
 
-          <a href="tel:+5511987414459" className="flex items-center gap-2 text-sm hover:underline">
-            <Phone className="h-4 w-4" /> (11) 98741-4459
-          </a>
-
-          <a href="https://wa.me/5511958770119" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm hover:underline">
-            <MessageCircle className="h-4 w-4" /> (11) 95877-0119
-          </a>
-
-          <a href="mailto:jeovanemachado1613@gmail.com" className="flex items-center gap-2 text-sm hover:underline">
-            <Mail className="h-4 w-4" /> jeovanemachado1613@gmail.com
-          </a>
-
-          <a href="mailto:luanarangel689@gmail.com" className="flex items-center gap-2 text-sm hover:underline">
-            <Mail className="h-4 w-4" /> luanarangel689@gmail.com
-          </a>
+         <ContactLinks />
         </div>
       </div>
 

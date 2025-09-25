@@ -13,6 +13,7 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
+import { ServicosMenuDesktop, ServicosMenuMobile } from "@/components/ServicosMenu";
 
 export default function Header() {
   return (
@@ -33,10 +34,28 @@ export default function Header() {
         {/* Nav desktop */}
         <nav className="hidden md:block">
           <ul className="flex items-center gap-8 text-sm font-medium text-white">
-            <li><Link href="/" className="transition-opacity hover:opacity-80">Home</Link></li>
-            <li><Link href="/quem-somos" className="transition-opacity hover:opacity-80">Quem Somos</Link></li>
-            <li><Link href="/servicos" className="transition-opacity hover:opacity-80">Serviços</Link></li>
-            <li><Link href="/contato" className="transition-opacity hover:opacity-80">Contato</Link></li>
+            <li>
+              <Link href="/" className="transition-opacity hover:opacity-80">
+                Home
+              </Link>
+            </li>
+
+            <li>
+              <Link href="/quem-somos" className="transition-opacity hover:opacity-80">
+                Quem Somos
+              </Link>
+            </li>
+
+            {/* 🔽 Submenu Serviços (desktop) */}
+            <li>
+              <ServicosMenuDesktop />
+            </li>
+
+            <li>
+              <Link href="/contato" className="transition-opacity hover:opacity-80">
+                Contato
+              </Link>
+            </li>
           </ul>
         </nav>
 
@@ -69,19 +88,36 @@ export default function Header() {
 
               <nav className="px-6 py-4">
                 <ul className="space-y-3 text-base font-medium">
-                  <li><Link href="/" className="text-white block py-2">Home</Link></li>
-                  <li><Link href="/quem-somos" className="text-white block py-2">Quem Somos</Link></li>
-                  <li><Link href="/servicos" className="text-white block py-2">Serviços</Link></li>
-                  <li><Link href="/contato" className="text-white block py-2">Contato</Link></li>
+                  <li>
+                    <Link href="/" className="text-white block py-2">
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/quem-somos" className="text-white block py-2">
+                      Quem Somos
+                    </Link>
+                  </li>
+
+                  {/* 🔽 Submenu Serviços (mobile) */}
+                  <li className="py-1">
+                    <ServicosMenuMobile />
+                  </li>
+
+                  <li>
+                    <Link href="/contato" className="text-white block py-2">
+                      Contato
+                    </Link>
+                  </li>
                 </ul>
 
                 {/* Canais no mobile */}
-                <div className="flex items-center mt-6 border-t  gap-4 pt-10 text-white">
+                <div className="flex items-center mt-6 border-t gap-4 pt-10 text-white">
                   <Canais />
                 </div>
               </nav>
 
-              {/* Força o botão de fechar ser branco */}
+              {/* X branco */}
               <SheetClose className="absolute right-4 top-4 text-white" />
             </SheetContent>
           </Sheet>
