@@ -17,7 +17,13 @@ import { ServicosMenuDesktop, ServicosMenuMobile } from "@/components/ServicosMe
 
 export default function Header() {
   return (
-    <header className="relative bg-primary md:absolute md:bg-transparent md:inset-x-0 md:top-0 md:z-50">
+    <header
+      className="
+        relative 
+        bg-white shadow-[0_5px_15px_rgba(25,33,61,0.11)] 
+        md:absolute md:bg-transparent md:shadow-none md:inset-x-0 md:top-0 md:z-50
+      "
+    >
       <div className="mx-auto flex pt-0 md:pt-5 h-24 md:h-20 max-w-7xl items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 pt-1 md:pt-10">
@@ -46,7 +52,7 @@ export default function Header() {
               </Link>
             </li>
 
-            {/* 🔽 Submenu Serviços (desktop) */}
+            {/* Submenu Serviços (desktop) */}
             <li>
               <ServicosMenuDesktop />
             </li>
@@ -67,9 +73,11 @@ export default function Header() {
         {/* Mobile: menu hambúrguer */}
         <div className="md:hidden">
           <Sheet>
-            <SheetTrigger aria-label="Abrir menu" className="text-white">
+            {/* ícone primário sobre header branco */}
+            <SheetTrigger aria-label="Abrir menu" className="text-[var(--primary)]">
               <Menu className="h-6 w-6" />
             </SheetTrigger>
+
             <SheetContent
               side="right"
               className="w-[88vw] bg-primary sm:max-w-sm p-0 text-white"
@@ -99,7 +107,7 @@ export default function Header() {
                     </Link>
                   </li>
 
-                  {/* 🔽 Submenu Serviços (mobile) */}
+                  {/* Submenu Serviços (mobile) */}
                   <li className="py-1">
                     <ServicosMenuMobile />
                   </li>

@@ -15,11 +15,11 @@ export default function SobreNosPage() {
       <PageHeader title="Sobre nós" />
 
 
-      <main className="mx-auto max-w-7xl px-4 md:px-10 pb-20">
+      <main className="mx-auto max-w-7xl px-4 md:px-10 pb-16">
         <section className="w-full py-12 md:py-20">
           <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2 md:gap-16">
-            {/* Left: Illustration */}
-            <div className="relative mx-auto w-full max-w-[540px]">
+            {/* Imagem → no desktop vem primeiro, no mobile vem depois */}
+            <div className="order-2 md:order-1 relative mx-auto w-full max-w-[540px]">
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[36px]">
                 <Image
                   src="/imgs/quem-somos.png"
@@ -32,13 +32,13 @@ export default function SobreNosPage() {
               </div>
             </div>
 
-            {/* Right: Content */}
-            <div className="space-y-6">
-              <h2 className="text-3xl font-extrabold leading-tight mb-0 tracking-tight text-[#1A2602] md:text-4xl">
+            {/* Texto → no mobile vem primeiro, no desktop vem depois */}
+            <div className="order-1 md:order-2 space-y-6 text-center md:text-left">
+              <h2 className="text-3xl font-extrabold leading-tight tracking-tight mb-0 text-[var(--primary)] md:text-4xl">
                 FORTE BRASIL
               </h2>
               <p
-                className="text-2xl font-medium md:text-base"
+                className="text-sm font-medium md:text-base mt-0"
                 style={{ color: "var(--grey)" }}
               >
                 Cultivando a natureza com inovação e excelência
@@ -63,7 +63,7 @@ export default function SobreNosPage() {
                 </p>
               </div>
 
-
+             
             </div>
           </div>
         </section>

@@ -67,7 +67,7 @@ export default function HeaderSecundario() {
 
         {/* Ações direita (desktop) */}
         <div className="hidden md:block">
-          <Canais className="text-white" />
+          <Canais className="text-[var(--primary)]" />
         </div>
 
         {/* Mobile: menu hambúrguer */}

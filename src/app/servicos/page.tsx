@@ -41,8 +41,8 @@ export default function ServicosPage() {
                   </p>
                 )}
 
-                <span className="mt-4 inline-block rounded-2xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white">
-                  Ver detalhes
+                <span className="mt-4 w-full text-center inline-block rounded-2xl bg-[var(--primary)] px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white">
+                  Saiba Mais
                 </span>
               </div>
             </article>

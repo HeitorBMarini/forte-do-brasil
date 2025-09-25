@@ -5,47 +5,51 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SERVICE_CATEGORIES } from "@/data/services";
 
-const imgPlaceholder = "/imgs/servicos/servico.png"; // ✅ direto da pasta public
+const imgPlaceholder = "/imgs/servicos/servico.png";
 
 export default function ServicosHome() {
-  const tiles = SERVICE_CATEGORIES.map((cat) => ({
-    href: `/servicos/${cat.category}`,
-    label: cat.label,
-    desc: cat.desc,
-    img: cat.children[0]?.img ?? imgPlaceholder,
-  }));
+  // pega todos os serviços de todas as categorias (hoje é só "servicos")
+  const services = SERVICE_CATEGORIES.flatMap((c) => c.children);
 
   return (
     <section className="w-full bg-[var(--light)] py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="text-center mb-10">
-          <span className="block text-xl  tracking-[0.25em] text-[color:var(--grey)]">
+        <div className="text-center mb-12">
+          <span className="block text-sm uppercase tracking-[0.25em] text-[color:var(--grey)]">
             Confira os
           </span>
-          <h2 className="relative inline-block mt-1 text-[color:var(--dark-text)] text-4xl font-bold 
-            after:content-[''] after:block after:w-20 after:h-[3px] after:bg-[color:var(--secondary)] after:mx-auto after:mt-2 rounded-full">
+          <h2 className="relative inline-block mt-2 text-[color:var(--dark-text)] text-3xl md:text-4xl font-bold
+            ">
             Nossos Serviços
           </h2>
         </div>
 
-        {/* Grid */}
-        <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-3">
-          {tiles.map((s) => (
-            <Link key={s.href} href={s.href} className="block">
-              <article className="group overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-100 transition hover:shadow-md">
-                <div className="relative h-80 w-full">
-                  <Image src={s.img} alt={s.label} className="object-cover" fill />
-                  
+        {/* Grid de serviços */}
+        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          {services.map((s) => (
+            <Link key={s.slug} href={`/servicos/${s.slug}`} className="block group">
+              <article className="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-zinc-100 transition hover:shadow-lg hover:-translate-y-1">
+                <div className="relative h-64 w-full overflow-hidden">
+                  <Image
+                    src={s.img ?? imgPlaceholder}
+                    alt={s.label}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
 
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold text-zinc-900">{s.label}</h3>
-                  <p className="mt-2 text-xs leading-relaxed text-zinc-600">{s.desc}</p>
-                  <div className="mt-4">
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold text-zinc-900 group-hover:text-[var(--primary)] transition">
+                    {s.label}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600 line-clamp-3">
+                    {s.desc}
+                  </p>
+                  <div className="mt-6">
                     <Button
                       size="sm"
-                      className="rounded-full w-full bg-[var(--primary)] uppercase text-white hover:bg-[color:var(--secondary)]"
+                      className="rounded-full w-full bg-[var(--primary)] uppercase text-white hover:bg-[color:var(--secondary)] transition"
                     >
                       Saiba mais
                     </Button>

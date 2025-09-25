@@ -9,8 +9,8 @@ export default function QuemSomos() {
   return (
     <section className="w-full py-12 md:py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2 md:gap-16">
-        {/* Left: Illustration */}
-        <div className="relative mx-auto w-full max-w-[540px]">
+        {/* Imagem → no desktop vem primeiro, no mobile vem depois */}
+        <div className="order-2 md:order-1 relative mx-auto w-full max-w-[540px]">
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[36px]">
             <Image
               src="/imgs/quem-somos.png"
@@ -23,8 +23,8 @@ export default function QuemSomos() {
           </div>
         </div>
 
-        {/* Right: Content */}
-        <div className="space-y-6">
+        {/* Texto → no mobile vem primeiro, no desktop vem depois */}
+        <div className="order-1 md:order-2 space-y-6 text-center md:text-left">
           <h2 className="text-3xl font-extrabold leading-tight tracking-tight mb-0 text-[var(--primary)] md:text-4xl">
             FORTE BRASIL
           </h2>
@@ -37,10 +37,20 @@ export default function QuemSomos() {
 
           <div className="space-y-4 text-sm leading-relaxed text-[#303030] md:text-[15px]">
             <p>
-              A Forte Brasil foi fundada por Jeovane, um apaixonado pela natureza que sempre acreditou na importância de cuidar do meio ambiente. Com um olhar inovador e comprometido, Jeovane transformou sua paixão em uma empresa dedicada a oferecer serviços de poda e remoção de árvores, além de soluções completas em paisagismo.
+              A Forte Brasil foi fundada por Jeovane, um apaixonado pela
+              natureza que sempre acreditou na importância de cuidar do meio
+              ambiente. Com um olhar inovador e comprometido, Jeovane
+              transformou sua paixão em uma empresa dedicada a oferecer serviços
+              de poda e remoção de árvores, além de soluções completas em
+              paisagismo.
             </p>
             <p>
-              Nossa missão é combinar técnica, segurança e estética em cada projeto, garantindo que cada árvore, jardim ou área verde seja tratada com cuidado, respeito e atenção aos detalhes. Com a Forte Brasil, você recebe não apenas um serviço, mas uma experiência que valoriza a natureza e transforma espaços em ambientes mais bonitos, saudáveis e harmoniosos.
+              Nossa missão é combinar técnica, segurança e estética em cada
+              projeto, garantindo que cada árvore, jardim ou área verde seja
+              tratada com cuidado, respeito e atenção aos detalhes. Com a Forte
+              Brasil, você recebe não apenas um serviço, mas uma experiência que
+              valoriza a natureza e transforma espaços em ambientes mais
+              bonitos, saudáveis e harmoniosos.
             </p>
           </div>
 
@@ -52,7 +62,6 @@ export default function QuemSomos() {
               <Link href="/quem-somos">Saiba Mais</Link>
             </Button>
           </div>
-
         </div>
       </div>
     </section>

@@ -17,7 +17,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Forte Brasil",
   description: "Cultivando a natureza com inovação e excelência",
+  icons: {
+    icon: "/favicon.png", 
+  },
 };
+
+
 
 export default function RootLayout({
   children,

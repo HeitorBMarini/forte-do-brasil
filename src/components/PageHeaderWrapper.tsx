@@ -1,17 +1,37 @@
-// app/servicos/PageHeaderWrapper.tsx
 "use client";
 
-import { getCategory, getService } from "@/data/services";
 import { useParams } from "next/navigation";
 import PageHeader from "@/components/PageHeader";
+import { SERVICE_CATEGORIES } from "@/data/services";
+
+// helper para achar serviço pelo slug (modelo atual: 1 categoria "servicos")
+function findServiceBySlug(slug?: string) {
+  if (!slug) return undefined;
+  const all = SERVICE_CATEGORIES.flatMap((c) => c.children);
+  return all.find((s) => s.slug === slug);
+}
 
 export default function PageHeaderWrapper() {
-  const { categoria, slug } = (useParams() as { categoria?: string; slug?: string }) ?? {};
-  const cat = categoria ? getCategory(categoria) : undefined;
-  const svc = categoria && slug ? getService(categoria, slug).service : undefined;
+  // rota atual: /servicos  ou  /servicos/[slug]
+  const params = useParams() as { slug?: string };
+  const service = findServiceBySlug(params?.slug);
 
-  const title = svc?.label ?? cat?.label ?? "Serviços";
-  const desc = svc?.desc ?? cat?.desc;
+  // breadcrumbs:
+  // - listagem: Home › Serviços
+  // - detalhe:  Home › Serviços › {Serviço}
+  const crumbs = [
+    { label: "Home", href: "/" },
+    { label: "Serviços", href: "/servicos" },
+  ];
 
-  return <PageHeader title={title}  />; // ✅ sem header aqui
+  if (service) {
+    crumbs.push({
+      label: service.label,
+      href: ""
+    });
+  }
+
+  const title = service?.label ?? "Serviços";
+
+  return <PageHeader title={title} breadcrumbs={crumbs} />;
 }
