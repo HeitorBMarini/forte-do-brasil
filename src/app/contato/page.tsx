@@ -7,14 +7,40 @@ import HeaderSecondary from "@/components/HeaderSecondary";
 import PageHeader from "@/components/PageHeader";
 
 export default function ContatoPage() {
+
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (loading) return; // evita duplo submit
     setLoading(true);
-    // TODO: integração (API, Formspree, etc.)
-    setTimeout(() => setLoading(false), 800);
+    setStatus(null);
+
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j?.error || "Erro ao enviar");
+      }
+
+      setStatus({ ok: true, msg: "Mensagem enviada com sucesso! ✅" });
+      form.reset();
+    } catch (err: any) {
+      setStatus({ ok: false, msg: err?.message || "Falha ao enviar. ❌" });
+    } finally {
+      setLoading(false);
+    }
   }
+
 
   return (
     <>
@@ -163,6 +189,12 @@ export default function ContatoPage() {
                   {loading ? "Enviando..." : "Enviar Mensagem"}
                   <span className="translate-y-[1px]">{loading ? "" : "➤"}</span>
                 </button>
+                {status && (
+                  <p className={`text-sm mt-2 ${status.ok ? "text-green-600" : "text-red-600"}`}>
+                    {status.msg}
+                  </p>
+                )}
+
               </form>
             </div>
           </div>

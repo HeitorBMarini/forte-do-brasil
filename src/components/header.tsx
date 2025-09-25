@@ -85,7 +85,7 @@ export default function Header() {
               <SheetHeader className="px-6 pt-6 pb-2">
                 <SheetTitle className="flex items-center gap-2">
                   <Image
-                    src="/imgs/logo-forte.png"
+                    src="/imgs/logo-2.png"
                     alt="Forte Brasil Paisagismo"
                     width={110}
                     height={36}
