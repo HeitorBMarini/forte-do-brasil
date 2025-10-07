@@ -66,21 +66,23 @@ export function ServicosMenuDesktop({ className }: Props) {
   );
 }
 
-/* ===================== MOBILE ===================== */
 export function ServicosMenuMobile({ className }: Props) {
   return (
-    <Accordion type="single" collapsible className={className}>
+    <Accordion type="single" collapsible className={`text-center ${className ?? ""}`}>
       <AccordionItem value="servicos">
-        {/* ✅ Trigger com um único filho */}
-        <AccordionTrigger className="py-2 text-base font-medium hover:no-underline">
-          <span className="flex items-center gap-2">
+        <AccordionTrigger
+          className="
+            py-2 text-base font-medium hover:no-underline 
+            justify-center text-center w-full
+          "
+        >
+          <span className="flex items-center justify-center gap-2">
             Serviços
-            {/* O Chevron do shadcn já rotaciona via CSS embutida */}
           </span>
         </AccordionTrigger>
 
         <AccordionContent className="space-y-2">
-          <ul className="pl-2 space-y-1">
+          <ul className="pl-0 space-y-1 text-center">
             {/* Primeiro item: link direto à página de serviços */}
             <li>
               <Link

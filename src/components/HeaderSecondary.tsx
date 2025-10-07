@@ -13,23 +13,20 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
-import {
-  ServicosMenuDesktop,
-  ServicosMenuMobile,
-} from "@/components/ServicosMenu";
+import { ServicosMenuDesktop, ServicosMenuMobile } from "@/components/ServicosMenu";
 
-export default function HeaderSecundario() {
+export default function Header() {
   return (
     <header className="relative bg-[var(--light)]">
       <div className="mx-auto flex py-3 max-w-7xl items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 pt-1 md:pt-2">
           <Image
             src="/imgs/logo-2.png"
             alt="Forte Brasil Paisagismo"
-            width={110}
+            width={90}
             height={40}
-            className="object-contain "
+            className="object-contain my-0 md:my-5"
             priority
           />
         </Link>
@@ -43,22 +40,15 @@ export default function HeaderSecundario() {
               </Link>
             </li>
             <li>
-              <Link
-                href="/quem-somos"
-                className="transition-opacity hover:opacity-80"
-              >
+              <Link href="/quem-somos" className="transition-opacity hover:opacity-80">
                 Quem Somos
               </Link>
             </li>
-            {/* Submenu Serviços (desktop) */}
             <li>
-              <ServicosMenuDesktop className="text-[var(--primary)]" />
+              <ServicosMenuDesktop />
             </li>
             <li>
-              <Link
-                href="/contato"
-                className="transition-opacity hover:opacity-80"
-              >
+              <Link href="/contato" className="transition-opacity hover:opacity-80">
                 Contato
               </Link>
             </li>
@@ -67,7 +57,7 @@ export default function HeaderSecundario() {
 
         {/* Ações direita (desktop) */}
         <div className="hidden md:block">
-          <Canais className="text-[var(--primary)]" />
+          <Canais className="text-[var(--primary)]"/>
         </div>
 
         {/* Mobile: menu hambúrguer */}
@@ -77,65 +67,88 @@ export default function HeaderSecundario() {
               <Menu className="h-6 w-6" />
             </SheetTrigger>
 
-            {/* Drawer claro no mobile */}
             <SheetContent
-              side="right"
-              className="w-[88vw] sm:max-w-sm p-0 bg-[var(--primary)] text-primary"
+              side="top"
+              className="
+    w-full bg-[var(--primary)] text-white rounded-b-2xl
+    p-0 pt-6 pb-10 sm:max-w-full animate-slideDown
+    [&>button:first-of-type]:hidden  /* esconde só o X padrão */
+  "
+            > <SheetClose
+              aria-label="Fechar menu"
+              className="
+      absolute right-4 top-4 
+      flex items-center justify-center
+      w-9 h-9 rounded-full border border-white/70 
+      text-white text-xl font-light 
+      transition-all duration-200
+      hover:bg-white/10 hover:scale-105
+    "
             >
-              <SheetClose
-                aria-label="Fechar"
-                className="absolute right-4 top-4 text-primary"
-              />
+                ×
+              </SheetClose>
 
-              <SheetHeader className="px-6 pt-6 pb-2">
-                <SheetTitle className="flex items-center gap-2 text-primary">
+              <SheetHeader className="px-6 pb-4">
+                <SheetTitle className="flex justify-center">
                   <Image
-                    src="/imgs/logo-2.png"
+                    src="/imgs/logo-forte.png"
                     alt="Forte Brasil Paisagismo"
-                    width={110}
-                    height={36}
-                    className="object-contain brightness-0 invert"
+                    width={100}
+                    height={40}
+                    className="object-contain contrast-125 brightness-100 invert-0 md:contrast-100 md:brightness-0 md:invert"
+                    priority
                   />
                 </SheetTitle>
               </SheetHeader>
 
-              <nav className="px-6 py-4">
-                <ul className="space-y-3 text-base font-medium">
+              <nav className="px-6 text-center">
+                <ul className="space-y-5 text-lg font-medium">
                   <li>
-                    <Link href="/" className="block py-2 text-white">
+                    <Link href="/" className="text-white block py-2">
                       Home
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      href="/quem-somos"
-                      className="block py-2 text-white"
-                    >
+                    <Link href="/quem-somos" className="text-white block py-2">
                       Quem Somos
                     </Link>
                   </li>
-
-                  {/* Submenu Serviços (mobile) */}
-                  <li className="py-1">
-                    <ServicosMenuMobile className="text-white" />
-                  </li>
-
                   <li>
-                    <Link href="/contato" className="block py-2 text-white">
+                    <ServicosMenuMobile />
+                  </li>
+                  <li>
+                    <Link href="/contato" className="text-white block py-2">
                       Contato
                     </Link>
                   </li>
                 </ul>
 
-                {/* Canais no mobile */}
-                <div className="mt-6 border-t border-white pt-4">
-                  <Canais className="text-white" />
+                <div className="flex justify-center mt-8 border-t border-white/20 pt-8">
+                  <Canais />
                 </div>
               </nav>
+
+
+
             </SheetContent>
           </Sheet>
         </div>
       </div>
+
+      {/* animação suave do menu descendo */}
+      <style jsx global>{`
+        @keyframes slideDown {
+          from {
+            transform: translateY(-100%);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
+        .animate-slideDown {
+          animation: slideDown 0.3s ease forwards;
+        }
+      `}</style>
     </header>
   );
 }
