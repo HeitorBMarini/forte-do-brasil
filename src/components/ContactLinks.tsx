@@ -6,7 +6,7 @@ interface ContactLinksProps {
   title?: string; // opcional: pode mudar o título (default: "Contato")
 }
 
-export function ContactLinks({ title = "Contato" }: ContactLinksProps) {
+export function ContactLinks({ }: ContactLinksProps) {
   return (
     <div className="flex flex-col items-center md:items-start space-y-3">
 

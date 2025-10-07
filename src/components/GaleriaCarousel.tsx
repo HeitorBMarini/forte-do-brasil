@@ -1,27 +1,25 @@
+// ./components/Galeria/GaleriaCarousel.tsx
 "use client";
 
 import Image from "next/image";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import { Search } from "lucide-react";
-import useFancybox from "./Galeria/useFancybox";
+import { useFancybox } from "./Galeria/useFancybox";
 
-// ✅ nomes das imagens .png dentro de /public/imgs/galeria/
 const imageCount = 19;
 const IMAGES = Array.from({ length: imageCount }, (_, i) =>
-  i === 0
-    ? "/imgs/galeria/galeria.png"
-    : `/imgs/galeria/galeria-${i + 1}.png`
+  i === 0 ? "/imgs/galeria/galeria.png" : `/imgs/galeria/galeria-${i + 1}.png`
 );
 
 export default function GaleriaCarousel() {
-  const [fancyboxRef] = useFancybox({});
+  const fancybox = useFancybox({}); // { ref, refresh }
 
   return (
     <section className="w-full py-16 bg-[var(--light)]">
-      <div className="mx-auto max-w-7xl px-4 text-center" ref={fancyboxRef}>
+      <div className="mx-auto max-w-7xl px-4 text-center" ref={fancybox.ref}>
         <p className="text-sm text-zinc-500">Veja</p>
-        <h2 className="text-2xl md:text-3xl font-bold text-[var(--primary)] mb-8">
+        <h2 className="mb-8 text-2xl font-bold text-[var(--primary)] md:text-3xl">
           Nossos Trabalhos
         </h2>
 
@@ -45,9 +43,13 @@ export default function GaleriaCarousel() {
               },
             }}
             className="galeria-splide !px-2"
+            // rebind quando o Splide monta/atualiza/move
+            onMounted={fancybox.refresh}
+            onMoved={fancybox.refresh}
+            onUpdated={fancybox.refresh}
           >
             {IMAGES.map((src, i) => (
-              <SplideSlide key={i}>
+              <SplideSlide key={src}>
                 <a
                   data-fancybox="galeria"
                   href={src}
@@ -67,7 +69,7 @@ export default function GaleriaCarousel() {
 
                   <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-t from-black/60 via-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                  <span className="pointer-events-none absolute left-1/2 -translate-x-1/2 bottom-4 translate-y-10 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                  <span className="pointer-events-none absolute left-1/2 bottom-4 -translate-x-1/2 translate-y-10 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                     <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow">
                       <Search className="h-5 w-5 text-[var(--primary)]" />
                     </span>

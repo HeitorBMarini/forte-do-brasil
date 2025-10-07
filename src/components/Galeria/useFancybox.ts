@@ -1,18 +1,33 @@
+// ./components/Galeria/useFancybox.ts
 "use client";
 
-import { useEffect, useState } from "react";
-// A lib exporta Fancybox nesse path:
-import { Fancybox as NativeFancybox } from "@fancyapps/ui";
+import { useCallback, useEffect, useState } from "react";
+import { Fancybox, type FancyboxOptions } from "@fancyapps/ui/dist/fancybox/";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
-export default function useFancybox(options: any = {}) {
-  const [root, setRoot] = useState<HTMLElement | null>(null);
+type RefCb = (node: HTMLDivElement | null) => void;
+
+export function useFancybox(options: Partial<FancyboxOptions> = {}) {
+  const [root, setRoot] = useState<HTMLDivElement | null>(null);
+
+  const bind = useCallback(() => {
+    if (!root) return;
+    // Rebind idempotente (desfaz e refaz)
+    Fancybox.unbind(root);
+    Fancybox.bind(root, "[data-fancybox]", options);
+  }, [root, options]);
 
   useEffect(() => {
     if (!root) return;
-    NativeFancybox.bind(root, "[data-fancybox]", options);
-    return () => NativeFancybox.unbind(root);
-  }, [root, options]);
+    bind();
+    return () => Fancybox.unbind(root);
+  }, [root, bind]);
 
-  return [setRoot] as const;
+  const ref: RefCb = useCallback((node) => {
+    setRoot(node);
+  }, []);
+
+  const refresh = bind;
+
+  return { ref, refresh };
 }

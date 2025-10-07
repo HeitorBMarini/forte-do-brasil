@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Mail, MessageCircle } from "lucide-react";
 import { ContactLinks } from "./ContactLinks";
 
 export default function Footer() {

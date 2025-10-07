@@ -32,13 +32,15 @@ export default function ContatoPage() {
         throw new Error(j?.error || "Erro ao enviar");
       }
 
-      setStatus({ ok: true, msg: "Mensagem enviada com sucesso! ✅" });
-      form.reset();
-    } catch (err: any) {
-      setStatus({ ok: false, msg: err?.message || "Falha ao enviar. ❌" });
-    } finally {
-      setLoading(false);
-    }
+     
+    setStatus({ ok: true, msg: "Mensagem enviada com sucesso! ✅" });
+    form.reset();
+  } catch (err: unknown) { // ✅ sem any
+    const msg = err instanceof Error ? err.message : "Falha ao enviar. ❌";
+    setStatus({ ok: false, msg });
+  } finally {
+    setLoading(false);
+  }
   }
 
 

@@ -4,9 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SERVICE_CATEGORIES } from "@/data/services";
 
-type Params = { slug: string };
+type RouteParams = { slug: string };
 
-// helper local para encontrar o serviço pelo slug (sem categoria)
 function getServiceBySlug(slug: string) {
   for (const c of SERVICE_CATEGORIES) {
     const service = c.children.find((s) => s.slug === slug);
@@ -15,15 +14,20 @@ function getServiceBySlug(slug: string) {
   return { service: undefined, category: undefined };
 }
 
-export default function ServiceDetailPage({ params }: { params: Params }) {
-  const { slug } = params;
+// ✅ Página — params como Promise para casar com PageProps do Next 15
+export default async function ServiceDetailPage({
+  params,
+}: {
+  params: Promise<RouteParams>;
+}) {
+  const { slug } = await params; // <- await direto
   const { service } = getServiceBySlug(slug);
   if (!service) return null;
 
   return (
     <div className="grid gap-8 md:grid-cols-2 md:pt-10">
       <div>
-        {service.img ? (
+        {service.img && (
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl ring-1 ring-zinc-100">
             <Image
               src={service.img}
@@ -34,13 +38,11 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
               priority
             />
           </div>
-        ) : null}
+        )}
       </div>
 
       <div className="space-y-4">
-        
         <p className="text-zinc-700">{service.desc}</p>
-
         <div className="pt-2">
           <Button
             asChild
@@ -54,16 +56,22 @@ export default function ServiceDetailPage({ params }: { params: Params }) {
   );
 }
 
-// SSG — agora só com o slug
+// ✅ SSG — ok
 export function generateStaticParams() {
   return SERVICE_CATEGORIES.flatMap((c) =>
-    c.children.map((s) => ({ slug: s.slug })),
+    c.children.map((s) => ({ slug: s.slug }))
   );
 }
 
-// SEO dinâmico
-export function generateMetadata({ params }: { params: Params }) {
-  const { service } = getServiceBySlug(params.slug);
+// ✅ SEO dinâmico — params como Promise também
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<RouteParams>;
+}) {
+  const { slug } = await params;
+  const { service } = getServiceBySlug(slug);
+
   return {
     title: service ? `${service.label} | Serviços` : "Serviços",
   };

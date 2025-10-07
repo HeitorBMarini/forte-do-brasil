@@ -7,21 +7,34 @@ import { ChevronLeft, ChevronDown } from "lucide-react";
 import { SERVICE_CATEGORIES } from "@/data/services";
 
 export default function ServiceRail() {
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
 
   const isServicos = pathname.startsWith("/servicos");
   const [open, setOpen] = useState(false);
 
-  const currentCategory = useMemo(() => {
-    const segs = pathname.split("/").filter(Boolean); // ["servicos", "categoria", "slug?"]
-    return segs[1] || "";
+  const categoryFromSlug = useCallback((slug: string) => {
+    for (const c of SERVICE_CATEGORIES) {
+      if (c.children.some((s) => s.slug === slug)) return c.category;
+    }
+    return "";
+  }, []);
+
+  const currentSlug = useMemo(() => {
+    const segs = pathname.split("/").filter(Boolean); 
+    return segs[1] ?? "";
   }, [pathname]);
+
+  const currentCategory = useMemo(
+    () => (currentSlug ? categoryFromSlug(currentSlug) : ""),
+    [currentSlug, categoryFromSlug]
+  );
 
   const toggle = useCallback(() => setOpen((v) => !v), []);
   const close = useCallback(() => setOpen(false), []);
 
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const isExpanded = (cat: string) => expanded[cat] ?? (cat === currentCategory);
+  const isExpanded = (cat: string) =>
+    expanded[cat] ?? (cat === currentCategory);
   const toggleCat = (cat: string) =>
     setExpanded((prev) => ({ ...prev, [cat]: !isExpanded(cat) }));
 
@@ -29,7 +42,6 @@ export default function ServiceRail() {
 
   return (
     <>
-      {/* Backdrop (apenas mobile) */}
       {open && (
         <button
           aria-label="Fechar menu de serviços"
@@ -38,7 +50,6 @@ export default function ServiceRail() {
         />
       )}
 
-      {/* Drawer (mobile + desktop) */}
       <aside
         id="service-rail"
         className={`
@@ -51,30 +62,32 @@ export default function ServiceRail() {
         `}
         style={
           {
-            // variável usada também no posicionamento do botão desktop
-            // @ts-ignore
             "--rail-w": "280px",
           } as React.CSSProperties
         }
       >
-        <header className="px-4 py-3 border-b border-white/10 font-semibold uppercase tracking-wide text-sm sticky top-0 bg-primary z-10">
+        <header className="sticky top-0 z-10 border-b border-white/10 bg-primary px-4 py-3 text-sm font-semibold uppercase tracking-wide">
           Serviços
         </header>
 
-        <nav className="p-3 space-y-2">
+        <nav className="space-y-2 p-3">
           {SERVICE_CATEGORIES.map((cat) => {
             const expandedNow = isExpanded(cat.category);
             const catActive = currentCategory === cat.category;
+            const firstChild = cat.children[0];
 
             return (
               <div
                 key={cat.category}
                 className={`rounded-md ${catActive ? "bg-white/5" : ""}`}
               >
-                {/* Cabeçalho da categoria: link + caret */}
                 <div className="flex items-center">
                   <Link
-                    href={`/servicos/${cat.category}`}
+                    href={
+                      firstChild
+                        ? `/servicos/${firstChild.slug}`
+                        : `/servicos` // fallback
+                    }
                     className="flex-1 px-3 py-2 text-sm font-medium text-zinc-100 hover:text-white"
                     onClick={close}
                   >
@@ -89,19 +102,24 @@ export default function ServiceRail() {
                     title={expandedNow ? "Recolher" : "Expandir"}
                   >
                     <ChevronDown
-                      className={`h-4 w-4 transition-transform ${expandedNow ? "rotate-180" : ""}`}
+                      className={`h-4 w-4 transition-transform ${
+                        expandedNow ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
                 </div>
 
-                {/* Lista de serviços da categoria */}
                 {expandedNow && (
                   <div id={`rail-cat-${cat.category}`} className="pb-2 pl-1">
                     {cat.children.map((s) => (
                       <Link
                         key={s.slug}
-                        href={`/servicos/${cat.category}/${s.slug}`}
-                        className="block px-4 py-1.5 text-sm text-zinc-200 hover:text-white hover:bg-white/10 rounded-md"
+                        href={`/servicos/${s.slug}`}
+                        className={`block rounded-md px-4 py-1.5 text-sm ${
+                          s.slug === currentSlug
+                            ? "bg-white/20 text-white"
+                            : "text-zinc-200 hover:bg-white/10 hover:text-white"
+                        }`}
                         onClick={close}
                       >
                         {s.label}
@@ -115,7 +133,6 @@ export default function ServiceRail() {
         </nav>
       </aside>
 
-      {/* Botão / aba – desktop */}
       <button
         type="button"
         onClick={toggle}
@@ -134,10 +151,11 @@ export default function ServiceRail() {
           right: open ? "280px" : "0px",
         }}
       >
-        <ChevronLeft className={`h-4 w-4 transition-transform ${open ? "" : "rotate-180"}`} />
+        <ChevronLeft
+          className={`h-4 w-4 transition-transform ${open ? "" : "rotate-180"}`}
+        />
       </button>
 
-      {/* Botão flutuante – mobile */}
       <button
         type="button"
         onClick={toggle}
@@ -147,13 +165,14 @@ export default function ServiceRail() {
         className={`
           md:hidden
           fixed bottom-48 right-5 z-[91]
-          h-12 w-12 rounded-full
-          bg-[var(--secondary)] text-white shadow-lg
-          flex items-center justify-center
+          flex h-12 w-12 items-center justify-center
+          rounded-full bg-[var(--secondary)] text-white shadow-lg
           transition-transform active:scale-95
         `}
       >
-        <ChevronLeft className={`h-5 w-5 transition-transform ${open ? "" : "rotate-180"}`} />
+        <ChevronLeft
+          className={`h-5 w-5 transition-transform ${open ? "" : "rotate-180"}`}
+        />
       </button>
     </>
   );
